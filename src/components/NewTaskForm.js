@@ -1,43 +1,44 @@
-import React, { useState } from "react";
+import React, {useState}  from "react";
 
-function NewTaskForm({ categories, onTaskFormSubmit }) {
-  const [taskText, setTaskText] = useState("");
-  const [taskCategory, setTaskCategory] = useState(categories[0]);
+function NewTaskForm({categories, onTaskFormSubmit}) {
 
-  const handleSubmit = (e) => {
+  // const [text, setText]= useState("")
+  // const [newCat, setNewCat]=  useState("")
+
+  const [newItems, setNewItems]= useState({
+    text:"",
+    category:"code"
+  })
+
+
+  const formCat = categories.map((category, index)=>(<option key={index}>{category}</option>))
+
+  function newItemPost(e){
+    setNewItems({...newItems, [e.target.name]:e.target.value})
+  }
+  return(
+
+  <form className="new-task-form" onSubmit={(e)=>{
     e.preventDefault();
+    onTaskFormSubmit(newItems);
+    }}>
+  
     
-    onTaskFormSubmit(taskText, taskCategory);
-    // Clear the form after submission
-    setTaskText("");
-  };
-
-  return (
-    <form className="new-task-form" onSubmit={handleSubmit}>
       <label>
         Details
-        <input
-          type="text"
-          name="text"
-          value={taskText}
-          onChange={(e) => setTaskText(e.target.value)}
-        />
+        <input type="text" name="text" value={newItems.text} onChange={newItemPost}/>
       </label>
       <label>
         Category
-        <select
-          name="category"
-          value={taskCategory}
-          onChange={(e) => setTaskCategory(e.target.value)}
+        <select name="category"
+        onChange={newItemPost}
+        value={newItems.category}
         >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
+          {/* render <option> elements for each category here */}
+          {formCat}
         </select>
       </label>
-      <input type="submit" value="Add task" />
+      <input type="submit" value="Add task"  />
     </form>
   );
 }

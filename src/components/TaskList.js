@@ -1,20 +1,22 @@
 import React from "react";
 import Task from "./Task";
+function TaskList({tasks, itemDelete}) {
+ 
 
-function TaskList({ tasks }) {
+   console.log(tasks);
+  
   return (
-    <div className="tasks">
-      {tasks.map(task => (
-        <Task key={task.id} category={task.category} text={task.text} onDelete={() => handleDeleteTask(task.id)} />
-      ))}
+    <div className="tasks" >
+        {tasks.map((task,index)=>(
+          <Task
+          itemDelete={itemDelete}
+          key={index}
+          text={task.text}
+          category={task.category}
+          />
+        ))}
     </div>
   );
-}
-
-// Define a function to handle the delete action
-function handleDeleteTask(taskId) {
-  
-  console.log(`Task with ID ${taskId} will be deleted.`);
 }
 
 export default TaskList;
